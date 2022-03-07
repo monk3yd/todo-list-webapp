@@ -520,7 +520,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  # Render task data into html table
+                  <!-- Render task data into html table -->
                   {% for task in tasks: %}
                   <tr>
                     <th scope="row">#{{ task.id }}</th>
@@ -533,12 +533,30 @@
                   {% endfor %}
                 </tbody>
               </table>
-              <!-- Add Task Button -->
+              <!-- Add Task Button - Modal Activate-->
               <div>
-                <button class="btn btn-outline-success btn-sm px-5" href="" type="button">Add Task</button>
+                <button href="" type="button" class="btn btn-outline-success btn-sm px-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Task</button>
+              </div>
+
+              <!-- TODO Modal -->
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
           </div>
         </div>
         <!-- End Todo List -->
