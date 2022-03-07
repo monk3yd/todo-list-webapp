@@ -1,11 +1,47 @@
 from flask import Flask, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, EmailField, SelectField
+from wtforms.validators import DataRequired
 
 import os
 import datetime as dt
 
+SECRET_KEY = os.urandom(32)
+
+PRIORITY = ("Choose...", "Critical", "High", "Medium", "Low")
+STATUS = ("Choose...", "Not started", "In Progress", "In Review", "Completed", "Canceled")
+
+
+# Setup Form Model
+class ContactForm(FlaskForm):
+    # Text
+    title = StringField(
+        label="title",
+        validators=[DataRequired()],
+        render_kw={"placeholder": "title"})
+    description = StringField(
+        label="description",
+        validators=[DataRequired()],
+        render_kw={"placeholder": "description"})
+
+    # Dropdowns
+    priority = SelectField(
+        label="priority",
+        choices=[(prio, prio) for prio in PRIORITY],
+        validators=[DataRequired()],
+        render_kw={"placeholder": "priority"})
+    status = SelectField(
+        label="status",
+        choices=[(stat, stat) for stat in STATUS],
+        validators=[DataRequired()],
+        render_kw={"placeholder": "status"})
+    submit = SubmitField("Add Task")
+
+
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 
 # Connnect to SQL db
 if os.environ.get('DATABASE_URL'):
@@ -19,7 +55,7 @@ db = SQLAlchemy(app)
 # TODO - Admin User
 
 
-# TODO - Setup Tables in db
+# Setup Tables in db
 class User(UserMixin, db.Model):  # Create Users Table Model
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -47,18 +83,23 @@ class Task(db.Model):  # Create Tasks Table Model
 db.create_all()
 
 
-# TODO - Routes
+# Routes
 @app.route("/", methods=["GET", "POST"])
 def home():
+    form = ContactForm()
     # POST
-        # TODO - Receive Add Task btn pressed
-        # TODO - Open Popup Window with form to add to table/db
-        # return
+    if form.validate_on_submit():  # if New Added Task
+        title = form.data.title
+        description = form.data.description
+        priority = form.data.priority
+        status = form.data.status
+        # TODO - Update db
+        return redirect(url_for('home'))
 
     # GET
     # Read all from task table in db
     all_tasks = db.session.query(Task).all()
-    return render_template("index.html", tasks=all_tasks)
+    return render_template("index.html", tasks=all_tasks, form=form)
 
 
 if __name__ == "__main__":
