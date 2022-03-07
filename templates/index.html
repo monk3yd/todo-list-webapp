@@ -520,41 +520,17 @@
                   </tr>
                 </thead>
                 <tbody>
+                  # Render task data into html table
+                  {% for task in tasks: %}
                   <tr>
-                    <th scope="row"><a href="#">#2457</a></th>
-                    <td>Balance Mensual</td>
-                    <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                    <td>Critical</td>
-                    <td><span class="badge bg-dark">Not started</span></td>
+                    <th scope="row">#{{ task.id }}</th>
+                    <td>{{ task.title }}</td>
+                    <td><a href="#" class="text-primary">{{ task.description }}</a></td>
+                    <td>{{ task.priority }}</td>
+                    <!-- TODO - Change Bar Color Depending on text -->
+                    <td><span class="badge bg-dark">{{ task.status }}</span></td>
                   </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2147</a></th>
-                    <td>Task Manager Web App Project</td>
-                    <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                    <td>High</td>
-                    <td><span class="badge bg-primary">In Progress</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2049</a></th>
-                    <td>Gajardo & Paiva Web Page Project</td>
-                    <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                    <td>Medium</td>
-                    <td><span class="badge bg-warning">In Review</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>CS50g - Game Development Course</td>
-                    <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                    <td>Low</td>
-                    <td><span class="badge bg-success">Completed</span></td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#">#2644</a></th>
-                    <td>Weasley Veterinario</td>
-                    <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                    <td>High</td>
-                    <td><span class="badge bg-danger">Canceled</span></td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
               <!-- Add Task Button -->
