@@ -89,11 +89,17 @@ def home():
     form = ContactForm()
     # POST
     if form.validate_on_submit():  # if New Added Task
-        title = form.data.title
-        description = form.data.description
-        priority = form.data.priority
-        status = form.data.status
-        # TODO - Update db
+        # Create new task
+        new_task = Task(
+            title=form.title.data,
+            description=form.description.data,
+            priority=form.priority.data,
+            status=form.status.data
+        )
+
+        # Update db
+        db.session.add(new_task)
+        db.session.commit()
         return redirect(url_for('home'))
 
     # GET
